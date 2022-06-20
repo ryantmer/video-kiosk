@@ -1,0 +1,40 @@
+<!-- This file is automatically opened by /etc/xdg/lxsession/LXDE-pi/autostart -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Central Okanagan Sports Hall of Fame</title>
+  </head>
+  <body>
+    <img class="logo" src="./images/KMS-sports-Logo-ALL WHITE-PRINT.png" alt="KMS Logo">
+
+    <h1>Central Okanagan Sports Hall of Fame<br>Inductee Videos</h1>
+
+    <div class="search-bar-container">
+      <input
+        id="search-input"
+        class="js-kioskboard-input"
+        data-kioskboard-type="all"
+        data-kioskboard-specialcharacters="false"
+        type="search"
+        autocomplete="off"
+        placeholder="Search by name, year, category or sport">
+      <div id="search-button">
+        <img src="./images/magnifier@2x.png" />
+      </div>
+    </div>
+
+    <div id="video-container">
+      <!-- Populated dynamically based on search results -->
+    </div>
+    <div id="no-results">
+      <h2>No results found for your search</h2>
+    </div>
+  </body>
+  <script src="./js/kioskboard-aio-1.4.0.min.js"></script>
+  <script src="../Video Index.js"></script>
+  <script src="./js/index.js"></script>
+</html>
