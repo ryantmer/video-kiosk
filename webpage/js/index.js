@@ -3,6 +3,8 @@ const searchButton = document.getElementById('search-button');
 const searchResultsContainer = document.getElementById('video-container');
 const noResults = document.getElementById('no-results');
 
+const server = 'http://localhost:3000';
+
 const videoCache = {};
 
 KioskBoard.Run('.js-kioskboard-input', {
@@ -41,44 +43,40 @@ KioskBoard.Run('.js-kioskboard-input', {
         }
     ],
     capsLockActive: false,
-    theme: 'flat'
+    theme: 'oldschool'
 });
 
-const search = () => {
+const refreshVideoIndex = async() => {
+    await fetch(`${server}/refresh`, {
+        method: 'POST'
+    });
+}
+
+const search = async() => {
     const searchTerm = searchInput.value.toLowerCase();
 
-    let searchResults;
-    if (!searchTerm) {
-        // By default, show the most-recent videos first
-        searchResults = videos.sort((a, b) => {
-            return b.year - a.year;
-        }).slice(0, 5);
-    } else {
-        searchResults = videos.filter(video => {
-            return video.fileName.toLowerCase().includes(searchTerm)
-                || video.keywords.toLowerCase().includes(searchTerm);
-        }).slice(0, 5);
-    }
+    const response = await fetch(`${server}?q=${searchTerm}`);
+    const searchResults = await response.json();
 
-    const videoElements = searchResults.map(searchResult => {
-        if (videoCache[searchResult.fileName]) {
-            return videoCache[searchResult.fileName];
+    const videoElements = searchResults.map(videoName => {
+        if (videoCache[videoName]) {
+            return videoCache[videoName];
         }
 
         const source = document.createElement('source');
-        source.src = `../Videos/${searchResult.fileName}#t=2`;
+        source.src = `../Videos/${videoName}#t=2`;
 
         const video = document.createElement('video');
         video.appendChild(source);
 
         const title = document.createElement('h3');
-        title.innerText = searchResult.fileName.substring(6, searchResult.fileName.length - 4);
+        title.innerText = videoName.substring(6, videoName.length - 4);
 
         const div = document.createElement('div');
         div.classList.add('search-result');
         div.addEventListener('click', event => {
-            const searchResult = event.target.tagName == 'div' ? event.target : event.target.parentElement;
-            const videoElement = searchResult.querySelector('video');
+            const videoName = event.target.tagName == 'div' ? event.target : event.target.parentElement;
+            const videoElement = videoName.querySelector('video');
             if (videoElement.paused) {
                 videoElement.currentTime = 0;
                 videoElement.requestFullscreen();
@@ -92,7 +90,7 @@ const search = () => {
         div.appendChild(video);
         div.appendChild(title);
 
-        videoCache[searchResult.fileName] = div;
+        videoCache[videoName] = div;
         
         return div;
     });
@@ -104,4 +102,4 @@ const search = () => {
 searchInput.addEventListener('change', search)
 searchButton.onclick = search;
 
-search();
+refreshVideoIndex().then(search);
