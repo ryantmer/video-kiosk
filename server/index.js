@@ -2,6 +2,12 @@ import express from 'express';
 import { readFileSync } from 'fs';
 import cors from 'cors';
 
+if (process.argv.length !== 3) {
+    throw new Error('Specify video index location');
+}
+
+const VIDEO_INDEX_FILE = process.argv[2];
+
 const app = express();
 const port = 3000;
 
@@ -9,7 +15,7 @@ let videos = [];
 
 function refreshVideoIndex() {
     console.log('Refreshing video index');
-    const videoIndex = readFileSync('../Video Index.csv', 'utf-8');
+    const videoIndex = readFileSync(VIDEO_INDEX_FILE, 'utf-8');
     videos = videoIndex.split('\n').map(line => {
         const [year, name, ...tags] = line.split(',');
         return {

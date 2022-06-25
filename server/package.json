@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js ../Video_Index.csv"
   },
   "dependencies": {
     "cors": "^2.8.5",
