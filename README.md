@@ -8,7 +8,7 @@ A simple video kiosk, purpose-built for a particular application so not really o
 
 Nothing special: pi/raspberry. Very secure. Don't ever connect this thing to a network, ha.
 
-Server log messages can be seen with `sudo tail -f /var/log/syslog`.
+Server log messages can be seen with `journalctl -fu coshof-server.service`.
 
 ## Setup and Installation Notes
 
@@ -16,9 +16,9 @@ Server log messages can be seen with `sudo tail -f /var/log/syslog`.
 
 1. Install LTS version of NodeJS (20 was last used, but newer ones are probably fine)
 
-1. Copy `server` and `webpage` to `/home/pi/`
+1. Copy `server` and `webpage` to `/home/pi/Desktop`
 
-1. `cd /home/pi/server && npm i`
+1. `cd /home/pi/Desktop/server && npm i`
 
 1. `sudo nano /etc/systemd/system/coshof-server.service` and add:
 ```
@@ -28,7 +28,7 @@ After=multi-user.target
 
 [Service]
 ExecStart=npm run start
-WorkingDirectory=/home/pi/server
+WorkingDirectory=/home/pi/Desktop/server
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
@@ -53,7 +53,7 @@ Open `sudo nano /home/pi/.config/autostart/coshof-webpage.desktop` and add:
 [Desktop Entry]
 Type=Application
 Name=COSHOF Webpage
-Exec=firefox --kiosk /home/pi/webpage/index.html
+Exec=firefox --kiosk /home/pi/Desktop/webpage/index.html
 ```
 
 Reboot the Raspberry Pi to ensure this also auto-runs after login.
