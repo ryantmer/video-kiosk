@@ -23,7 +23,7 @@ function refreshVideoIndex() {
             name: name.trim(),
             tags: tags.join(', ').trim()
         };
-    });
+    }).reverse();
 }
 
 refreshVideoIndex();
