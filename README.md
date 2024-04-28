@@ -53,7 +53,7 @@ Open `sudo nano /home/pi/.config/autostart/coshof-webpage.desktop` and add:
 [Desktop Entry]
 Type=Application
 Name=COSHOF Webpage
-Exec=chromium-browser --start-fullscreen /home/pi/Desktop/webpage/index.html
+Exec=chromium --kiosk --incognito /home/pi/Desktop/webpage/index.html
 ```
 
 Reboot the Raspberry Pi to ensure this also auto-runs after login.
